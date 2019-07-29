@@ -16,13 +16,11 @@
 
 package org.springframework.boot.starter.remote.shell;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} to print a deprecation warning about
