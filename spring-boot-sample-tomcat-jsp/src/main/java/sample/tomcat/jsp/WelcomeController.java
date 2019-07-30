@@ -22,13 +22,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+import sample.tomcat.jsp.entity.IUser;
 
-@Controller
+@RestController
 public class WelcomeController {
 
 	@Value("${application.message:Hello World}")
@@ -39,6 +36,13 @@ public class WelcomeController {
 		model.put("time", new Date());
 		model.put("message", this.message);
 		return "welcome";
+	}
+
+	@GetMapping("/user")
+	public IUser welcome() {
+		IUser iUser = new IUser();
+		iUser.setUserName("234");
+		return iUser;
 	}
 
 	@RequestMapping("/fail")
