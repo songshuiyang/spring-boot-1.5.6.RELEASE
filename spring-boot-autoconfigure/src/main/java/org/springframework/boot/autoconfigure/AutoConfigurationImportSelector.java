@@ -92,10 +92,13 @@ public class AutoConfigurationImportSelector
 			AutoConfigurationMetadata autoConfigurationMetadata = AutoConfigurationMetadataLoader
 					.loadMetadata(this.beanClassLoader);
 			AnnotationAttributes attributes = getAttributes(annotationMetadata);
-			List<String> configurations = getCandidateConfigurations(annotationMetadata,
-					attributes);
+			// 获取META-INF/spring.factories配置的类名
+			List<String> configurations = getCandidateConfigurations(annotationMetadata, attributes);
+			// 去重
 			configurations = removeDuplicates(configurations);
+			// 排序
 			configurations = sort(configurations, autoConfigurationMetadata);
+			// 筛选排除
 			Set<String> exclusions = getExclusions(annotationMetadata, attributes);
 			checkExcludedClasses(configurations, exclusions);
 			configurations.removeAll(exclusions);

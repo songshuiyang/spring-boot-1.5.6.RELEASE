@@ -35,15 +35,15 @@ import org.springframework.util.StringUtils;
  * @author Phillip Webb
  */
 class SpringApplicationBannerPrinter {
-
+	// 配置该属性用于配置自定义banner的位置
 	static final String BANNER_LOCATION_PROPERTY = "banner.location";
-
+	// 图片BANNER_IMAGE?
 	static final String BANNER_IMAGE_LOCATION_PROPERTY = "banner.image.location";
-
+	// 默认banner的存放位置
 	static final String DEFAULT_BANNER_LOCATION = "banner.txt";
 
 	static final String[] IMAGE_EXTENSION = { "gif", "jpg", "png" };
-
+	// 默认打印处理类
 	private static final Banner DEFAULT_BANNER = new SpringBootBanner();
 
 	private final ResourceLoader resourceLoader;

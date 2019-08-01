@@ -45,6 +45,7 @@ class SpringBootBanner implements Banner {
 	@Override
 	public void printBanner(Environment environment, Class<?> sourceClass,
 			PrintStream printStream) {
+		// 循环打印
 		for (String line : BANNER) {
 			printStream.println(line);
 		}

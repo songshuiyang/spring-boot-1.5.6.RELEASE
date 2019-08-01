@@ -148,6 +148,7 @@ import org.springframework.web.context.support.StandardServletEnvironment;
 public class SpringApplication {
 
 	/**
+	 * 非web环境构造的application context
 	 * The class name of application context that will be used by default for non-web
 	 * environments.
 	 */
@@ -155,6 +156,7 @@ public class SpringApplication {
 			+ "annotation.AnnotationConfigApplicationContext";
 
 	/**
+	 * web环境构造的application context
 	 * The class name of application context that will be used by default for web
 	 * environments.
 	 */
@@ -304,22 +306,19 @@ public class SpringApplication {
 		listeners.starting();
 		try {
 			// 创建  ApplicationArguments 对象
-			ApplicationArguments applicationArguments = new DefaultApplicationArguments(
-					args);
+			ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
 			// 加载属性配置。执行完成后，所有的 environment 的属性都会加载进来，包括 application.properties 和外部的属性配置。
-			ConfigurableEnvironment environment = prepareEnvironment(listeners,
-					applicationArguments);
+			ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);
 			// 打印 Spring Banner
 			Banner printedBanner = printBanner(environment);
 			// 创建 Spring 容器。
 			context = createApplicationContext();
 			analyzers = new FailureAnalyzers(context);
 			// 主要是调用所有初始化类的 initialize 方法
-			prepareContext(context, environment, listeners, applicationArguments,
-					printedBanner);
+			prepareContext(context, environment, listeners, applicationArguments, printedBanner);
 			// 初始化 Spring 容器。
 			refreshContext(context);
-			// 执行 Spring 容器的初始化的后置逻辑。默认实现为空。
+			// 执行 Spring 容器的初始化后的后置逻辑
 			afterRefresh(context, applicationArguments);
 			// 通知 SpringApplicationRunListener 的数组，Spring 容器启动完成。
 			listeners.finished(context, null);
@@ -543,9 +542,11 @@ public class SpringApplication {
 		}
 		ResourceLoader resourceLoader = this.resourceLoader != null ? this.resourceLoader
 				: new DefaultResourceLoader(getClassLoader());
+		// 构造SpringApplicationBannerPrinter
 		SpringApplicationBannerPrinter bannerPrinter = new SpringApplicationBannerPrinter(
 				resourceLoader, this.banner);
 		if (this.bannerMode == Mode.LOG) {
+			// 打印在log file中
 			return bannerPrinter.print(environment, this.mainApplicationClass, logger);
 		}
 		return bannerPrinter.print(environment, this.mainApplicationClass, System.out);
