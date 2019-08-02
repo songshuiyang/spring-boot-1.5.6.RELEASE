@@ -53,6 +53,8 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ObjectUtils;
 
 /**
+ * 嵌入式的`Servlet`容器自动配置类
+ *
  * {@link EnableAutoConfiguration Auto-configuration} for an embedded servlet containers.
  *
  * @author Phillip Webb
@@ -62,11 +64,14 @@ import org.springframework.util.ObjectUtils;
  */
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @Configuration
-@ConditionalOnWebApplication
-@Import(BeanPostProcessorsRegistrar.class)
+@ConditionalOnWebApplication // 注解表明只有在web环境下才会创建容器相关信息，因此应用无需容器则使用
+@Import(BeanPostProcessorsRegistrar.class) // Bean后置处理器的注册器；给容器中注入一些组件，导入了EmbeddedServletContainerCustomizerBeanPostProcessor
 public class EmbeddedServletContainerAutoConfiguration {
 
 	/**
+	 * 注册Tomcat容器工厂
+	 * 由于存在@ConditionalOnMissingBean注解，因此优先使用用户自定义的EmbeddedServletContainerFactory
+	 *
 	 * Nested configuration if Tomcat is being used.
 	 */
 	@Configuration
@@ -82,6 +87,8 @@ public class EmbeddedServletContainerAutoConfiguration {
 	}
 
 	/**
+	 * 注册Jetty容器工厂
+	 *
 	 * Nested configuration if Jetty is being used.
 	 */
 	@Configuration
@@ -98,6 +105,8 @@ public class EmbeddedServletContainerAutoConfiguration {
 	}
 
 	/**
+	 * 注册其他容器工厂
+	 *
 	 * Nested configuration if Undertow is being used.
 	 */
 	@Configuration

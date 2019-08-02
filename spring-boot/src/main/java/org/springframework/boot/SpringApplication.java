@@ -379,7 +379,7 @@ public class SpringApplication {
 		}
 
 		// Load the sources
-		// 加载 BeanDefinition 们
+		// 加载 BeanDefinition
 		Set<Object> sources = getSources();
 		Assert.notEmpty(sources, "Sources must not be empty");
 		load(context, sources.toArray(new Object[sources.size()]));
@@ -440,17 +440,34 @@ public class SpringApplication {
 		return instances;
 	}
 
+	/**
+	 * 创建对象的数组
+	 *
+	 * @param type
+	 * @param parameterTypes
+	 * @param classLoader
+	 * @param args
+	 * @param names
+	 * @param <T>
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	private <T> List<T> createSpringFactoriesInstances(Class<T> type,
 			Class<?>[] parameterTypes, ClassLoader classLoader, Object[] args,
 			Set<String> names) {
+		// 数组大小，细节
 		List<T> instances = new ArrayList<T>(names.size());
+		// 遍历 names 数组
 		for (String name : names) {
 			try {
+				// 获得 name 对应的类
 				Class<?> instanceClass = ClassUtils.forName(name, classLoader);
+				// 判断类是否实现自 type 类
 				Assert.isAssignable(type, instanceClass);
+				// 获得构造方法
 				Constructor<?> constructor = instanceClass
 						.getDeclaredConstructor(parameterTypes);
+				// 创建对象
 				T instance = (T) BeanUtils.instantiateClass(constructor, args);
 				instances.add(instance);
 			}

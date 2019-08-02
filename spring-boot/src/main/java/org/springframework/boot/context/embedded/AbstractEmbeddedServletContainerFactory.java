@@ -41,9 +41,7 @@ import org.springframework.util.Assert;
  * @author Phillip Webb
  * @author Dave Syer
  */
-public abstract class AbstractEmbeddedServletContainerFactory
-		extends AbstractConfigurableEmbeddedServletContainer
-		implements EmbeddedServletContainerFactory {
+public abstract class AbstractEmbeddedServletContainerFactory extends AbstractConfigurableEmbeddedServletContainer implements EmbeddedServletContainerFactory {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 

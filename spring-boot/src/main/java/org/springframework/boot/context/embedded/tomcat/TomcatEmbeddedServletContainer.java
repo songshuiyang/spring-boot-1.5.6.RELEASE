@@ -49,8 +49,7 @@ import org.springframework.util.Assert;
  */
 public class TomcatEmbeddedServletContainer implements EmbeddedServletContainer {
 
-	private static final Log logger = LogFactory
-			.getLog(TomcatEmbeddedServletContainer.class);
+	private static final Log logger = LogFactory.getLog(TomcatEmbeddedServletContainer.class);
 
 	private static final AtomicInteger containerCounter = new AtomicInteger(-1);
 
@@ -58,6 +57,7 @@ public class TomcatEmbeddedServletContainer implements EmbeddedServletContainer 
 
 	private final Map<Service, Connector[]> serviceConnectors = new HashMap<Service, Connector[]>();
 
+	// Tomcat猫
 	private final Tomcat tomcat;
 
 	private final boolean autoStart;
@@ -81,6 +81,7 @@ public class TomcatEmbeddedServletContainer implements EmbeddedServletContainer 
 		Assert.notNull(tomcat, "Tomcat Server must not be null");
 		this.tomcat = tomcat;
 		this.autoStart = autoStart;
+		// 启动容器
 		initialize();
 	}
 
@@ -96,6 +97,7 @@ public class TomcatEmbeddedServletContainer implements EmbeddedServletContainer 
 					removeServiceConnectors();
 
 					// Start the server to trigger initialization listeners
+					// 启动 Tomcat
 					this.tomcat.start();
 
 					// We can re-throw failure exception directly in the main thread

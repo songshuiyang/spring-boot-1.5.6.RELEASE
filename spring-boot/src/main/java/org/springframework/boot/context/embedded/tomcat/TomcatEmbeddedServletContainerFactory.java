@@ -96,8 +96,7 @@ import org.springframework.util.StringUtils;
  * @see #setContextLifecycleListeners(Collection)
  * @see TomcatEmbeddedServletContainer
  */
-public class TomcatEmbeddedServletContainerFactory
-		extends AbstractEmbeddedServletContainerFactory implements ResourceLoaderAware {
+public class TomcatEmbeddedServletContainerFactory extends AbstractEmbeddedServletContainerFactory implements ResourceLoaderAware {
 
 	private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
@@ -159,10 +158,19 @@ public class TomcatEmbeddedServletContainerFactory
 		super(contextPath, port);
 	}
 
+	/**
+	 * 获取EmbeddedServletContainer
+	 *
+	 * @param initializers {@link ServletContextInitializer}s that should be applied as
+	 * the container starts
+	 * @return
+	 */
 	@Override
 	public EmbeddedServletContainer getEmbeddedServletContainer(
 			ServletContextInitializer... initializers) {
+		// 构建Tomcat实例
 		Tomcat tomcat = new Tomcat();
+		// 配置Tomcat的基本环境
 		File baseDir = (this.baseDirectory != null ? this.baseDirectory
 				: createTempDir("tomcat"));
 		tomcat.setBaseDir(baseDir.getAbsolutePath());
@@ -176,6 +184,7 @@ public class TomcatEmbeddedServletContainerFactory
 			tomcat.getService().addConnector(additionalConnector);
 		}
 		prepareContext(tomcat.getHost(), initializers);
+		// 将配置好的Tomcat传入进去。返回一个EmbeddedServletContainer 并且启动tomcat容器
 		return getTomcatEmbeddedServletContainer(tomcat);
 	}
 
