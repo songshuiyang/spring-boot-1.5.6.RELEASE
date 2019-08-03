@@ -131,6 +131,7 @@ public class EmbeddedWebApplicationContext extends GenericWebApplicationContext 
 	protected void onRefresh() {
 		super.onRefresh();
 		try {
+			// 创建及启动容器
 			createEmbeddedServletContainer();
 		}
 		catch (Throwable ex) {
@@ -158,13 +159,15 @@ public class EmbeddedWebApplicationContext extends GenericWebApplicationContext 
 	private void createEmbeddedServletContainer() {
 		EmbeddedServletContainer localContainer = this.embeddedServletContainer;
 		ServletContext localServletContext = getServletContext();
+		// 内置Servlet容器和ServletContext都还没初始化的时候执行
 		if (localContainer == null && localServletContext == null) {
 			EmbeddedServletContainerFactory containerFactory = getEmbeddedServletContainerFactory();
-			this.embeddedServletContainer = containerFactory
-					.getEmbeddedServletContainer(getSelfInitializer());
+			// 获取EmbeddedServletContainer 获取Servlet初始化器并创建Servlet容器，依次调用Servlet初始化器中的onStartup方法
+			this.embeddedServletContainer = containerFactory.getEmbeddedServletContainer(getSelfInitializer());
 		}
-		else if (localServletContext != null) {
+		else if (localServletContext != null) {// 内置Servlet容器已经初始化但是ServletContext还没初始化的时候执行
 			try {
+				// 对已经存在的Servlet容器依次调用Servlet初始化器中的onStartup方法
 				getSelfInitializer().onStartup(localServletContext);
 			}
 			catch (ServletException ex) {
