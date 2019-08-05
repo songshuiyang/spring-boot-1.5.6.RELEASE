@@ -105,7 +105,7 @@ public class EmbeddedServletContainerAutoConfiguration {
 	}
 
 	/**
-	 * 注册其他容器工厂
+	 * 注册Embedded容器工厂
 	 *
 	 * Nested configuration if Undertow is being used.
 	 */
